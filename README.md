@@ -8,7 +8,8 @@ Installation
 
 Copy `forcelang.suprx` to `ur0:/tai`, then add the plugin to the `config.txt` section of each application you want to use it with.
 
-```# Example for Digimon Story: Cyber Sleuth (European PSN)
+```
+# Example for Digimon Story: Cyber Sleuth (European PSN)
 *PCSB00861
 ur0:tai/forcelang.suprx
 ```
