@@ -1,7 +1,13 @@
 forcelang
 =========
 
-A taiHEN plugin for overriding an application's language, if queried by `sceAppUtilSystemParamGetInt` and `SCE_SYSTEM_PARAM_ID_LANG`.
+A taiHEN plugin for overriding an application's language, if queried by `sceAppUtilSystemParamGetInt` and `SCE_SYSTEM_PARAM_ID_LANG`. Possibly inefficient, possibly still buggy, it is literally the author's "My First Vita Homebrew".
+
+Requirements
+------------
+
+* A way to use taiHEN plugins (developed using a PS Vita on 3.65 Enso)
+* [kuio](https://github.com/Rinnegatamante/kuio) (for config file access; not sure if this dependency can be removed?)
 
 Installation
 ------------
