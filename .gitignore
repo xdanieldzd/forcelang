@@ -1,0 +1,5 @@
+CMakeFiles/
+*.cmake
+CMakeCache.txt
+*.suprx
+*.velf
