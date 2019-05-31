@@ -7,14 +7,17 @@ Requirements
 ------------
 
 * A way to use taiHEN plugins (developed using a PS Vita on 3.65 Enso)
-* [kuio](https://github.com/Rinnegatamante/kuio) (for config file access; not sure if this dependency can be removed?)
+* [ioplus](https://github.com/CelesteBlue-dev/PSVita-RE-tools/tree/master/ioPlus/ioPlus-0.1/release) (for config file access)
 
 Installation
 ------------
 
-Copy `forcelang.suprx` to `ur0:/tai`, then add the plugin to the `config.txt` section of each application you want to use it with.
+Copy `forcelang.suprx` and `ioplus.skprx` to `ur0:/tai`, then add the plugin to the `config.txt` section of each application you want to use it with.
 
 ```
+*KERNEL
+ur0:tai/ioplus.skprx
+
 # Example for Digimon Story: Cyber Sleuth (European PSN)
 *PCSB00861
 ur0:tai/forcelang.suprx
