@@ -1,4 +1,4 @@
- /*
+/*
     forcelang - language override plugin
     Written in July 2018 by xdaniel - github.com/xdanieldzd
 */
@@ -8,6 +8,7 @@
 #include <malloc.h>
 
 #include <psp2/kernel/modulemgr.h>
+#include <psp2/kernel/threadmgr.h>
 #include <psp2/io/fcntl.h>
 #include <psp2/io/stat.h>
 #include <psp2/appmgr.h>
@@ -17,6 +18,30 @@
 
 #define DATA_DIRECTORY "ux0:/data/forcelang"
 
+const char * languageNames[] =
+{
+    "Japanese",
+    "American English",
+    "French",
+    "Spanish",
+    "German",
+    "Italian",
+    "Dutch",
+    "Portugal Portuguese",
+    "Russian",
+    "Korean",
+    "Traditional Chinese",
+    "Simplified Chinese",
+    "Finnish",
+    "Swedish",
+    "Danish",
+    "Norwegian",
+    "Polish",
+    "Brazil Portuguese",
+    "British English",
+    "Turkish"
+};
+
 static tai_hook_ref_t sysParamGet_hookRef;
 static SceUID taiPatchRef;
 
@@ -24,13 +49,14 @@ char * appTitleId;
 char * filename;
 char * buffer;
 
-int language = SCE_SYSTEM_PARAM_LANG_ENGLISH_US;
+int sysLanguage = SCE_SYSTEM_PARAM_LANG_ENGLISH_US;
+int gameLanguage = -1;
 
 int sceAppUtilSystemParamGetInt_patched(unsigned int paramId, int *value)
 {
     if (paramId == SCE_SYSTEM_PARAM_ID_LANG)
     {
-        *value = language;
+        *value = gameLanguage;
         return 0;
     }
 
@@ -47,22 +73,14 @@ void fetchInformation()
     SceAppUtilBootParam bootParam;
     memset(&bootParam, 0, sizeof(SceAppUtilBootParam));
     sceAppUtilInit(&initParam, &bootParam);
-    sceAppUtilSystemParamGetInt(SCE_SYSTEM_PARAM_ID_LANG, &language);
+    sceAppUtilSystemParamGetInt(SCE_SYSTEM_PARAM_ID_LANG, &sysLanguage);
     sceAppUtilShutdown();
 
     // Get application's title ID
     appTitleId = malloc(sizeof(char) * 12);
     sceAppMgrAppParamGetString(0, 12, appTitleId, 256);
-}
 
-void test()
-{
-    SceUID fd = sceIoOpen(DATA_DIRECTORY "/test.txt", SCE_O_WRONLY | SCE_O_CREAT | SCE_O_TRUNC, 0777);
-    if(fd >= 0)
-    {
-        sceIoWrite(fd, appTitleId, sizeof(char) * 12);
-        sceIoClose(fd);
-    }
+    printf("[forcelang] System language is %s (%d), current title ID is %s.\n", languageNames[sysLanguage], sysLanguage, appTitleId);
 }
 
 void readConfig()
@@ -84,7 +102,17 @@ void readConfig()
         sceIoRead(fd, buffer, 128);
         sceIoClose(fd);
 
-        sscanf(buffer, "%d", &language);
+        sscanf(buffer, "%d", &gameLanguage);
+
+        if (gameLanguage < SCE_SYSTEM_PARAM_LANG_JAPANESE || gameLanguage > SCE_SYSTEM_PARAM_LANG_TURKISH)
+        {
+            printf("[forcelang] Read config, language override is invalid (%d), defaulting to system language %s (%d).\n", gameLanguage, languageNames[sysLanguage], sysLanguage);
+            gameLanguage = sysLanguage;
+        }
+        else
+        {
+            printf("[forcelang] Read config, language override is %s (%d).\n", languageNames[gameLanguage], gameLanguage);
+        }
     }
     else
     {
@@ -93,19 +121,28 @@ void readConfig()
         if (fd >= 0)
         {
             // Config file created, write the system language as default
-            sprintf(buffer, "%d", language);
+            sprintf(buffer, "%d", sysLanguage);
 
             sceIoWrite(fd, buffer, sizeof(char));
             sceIoClose(fd);
+
+            printf("[forcelang] Created config, defaulting to system language %s (%d).\n", languageNames[sysLanguage], sysLanguage);
+        }
+        else
+        {
+            printf("[forcelang] Failed to create config file at %s!\n", filename);
         }
     }
 }
 
 int module_start(SceSize argc, const void *args)
 {
-    // Do stuff!
+    // Hello!
+    sceKernelDelayThread(1000 * 1000);
+    printf("\n[forcelang] Initializing...\n");
+
+    // Perform initialization...
     fetchInformation();
-    //test();
     readConfig();
 
     // Patch sceAppUtilSystemParamGetInt
@@ -114,6 +151,20 @@ int module_start(SceSize argc, const void *args)
                                          0x48E01D74,    // SceAppUtil
                                          0x5DFB9CA0,    // sceAppUtilSystemParamGetInt
                                          sceAppUtilSystemParamGetInt_patched);
+
+    // See if hook succeeded
+    if (taiPatchRef >= 0)
+    {
+        printf("[forcelang] Function hook succeeded.\n");
+    }
+    else
+    {
+        printf("[forcelang] Failed to hook function, error %x!\n", taiPatchRef);
+    }
+
+    printf("[forcelang] Initialization finished.\n\n");
+
+    sceKernelDelayThread(1000 * 1000);
 
     return SCE_KERNEL_START_SUCCESS;
 }

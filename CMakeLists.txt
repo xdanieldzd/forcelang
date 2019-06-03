@@ -32,6 +32,7 @@ target_link_libraries(forcelang
   SceAppUtil_stub
   SceIofilemgr_stub
   SceLibKernel_stub
+  SceKernelThreadMgr_stub
 )
 
 set_target_properties(forcelang
