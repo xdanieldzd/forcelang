@@ -26,7 +26,7 @@ ur0:tai/forcelang.suprx
 Configuration
 -------------
 
-When starting an application with the plugin enabled, the plugin will look for, and if necessary create, a configuration file at `ur0:/data/forcelang/[title ID].txt`, ex. `PCSB00861.txt`.
+When starting an application with the plugin enabled, the plugin will look for, and if necessary create, a configuration file at `ux0:/data/forcelang/[title ID].txt`, ex. `PCSB00861.txt`.
 
 This file contains a single number, corresponding to the Vita system's `SceSystemParamLang` enum. Thus, valid values are:
 
