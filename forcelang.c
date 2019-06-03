@@ -9,10 +9,10 @@
 
 #include <psp2/kernel/modulemgr.h>
 #include <psp2/io/fcntl.h>
+#include <psp2/io/stat.h>
 #include <psp2/appmgr.h>
 #include <psp2/system_param.h>
 
-#include <kuio.h>
 #include <taihen.h>
 
 #define DATA_DIRECTORY "ur0:/data/forcelang"
@@ -57,12 +57,11 @@ void fetchInformation()
 
 void test()
 {
-    SceUID fd;
-    kuIoOpen(DATA_DIRECTORY "/test.txt", SCE_O_WRONLY | SCE_O_CREAT | SCE_O_TRUNC, &fd);
+    SceUID fd = sceIoOpen(DATA_DIRECTORY "/test.txt", SCE_O_WRONLY | SCE_O_CREAT | SCE_O_TRUNC, 0777);
     if(fd >= 0)
     {
-        kuIoWrite(fd, appTitleId, sizeof(char) * 12);
-        kuIoClose(fd);
+        sceIoWrite(fd, appTitleId, sizeof(char) * 12);
+        sceIoClose(fd);
     }
 }
 
@@ -73,31 +72,31 @@ void readConfig()
     memset(buffer, 0, 128);
 
     // Try to open config file, also create directory if necessary
-    kuIoMkdir(DATA_DIRECTORY);
-    SceUID fd;
+    sceIoMkdir(DATA_DIRECTORY, 0777);
+
     filename = malloc(sizeof(char) * 128);
     sprintf(filename, DATA_DIRECTORY "/%s.txt", appTitleId);
-    kuIoOpen(filename, SCE_O_RDONLY, &fd);
+    SceUID fd = sceIoOpen(filename, SCE_O_RDONLY, 0777);
 
     if (fd >= 0)
     {
         // Config file exists, read the value
-        kuIoRead(fd, buffer, 128);
-        kuIoClose(fd);
+        sceIoRead(fd, buffer, 128);
+        sceIoClose(fd);
 
         sscanf(buffer, "%d", &language);
     }
     else
     {
         // Config file doesn't exist, try to create it
-        kuIoOpen(filename, SCE_O_WRONLY | SCE_O_CREAT | SCE_O_TRUNC, &fd);
+        fd = sceIoOpen(filename, SCE_O_WRONLY | SCE_O_CREAT | SCE_O_TRUNC, 0777);
         if (fd >= 0)
         {
             // Config file created, write the system language as default
             sprintf(buffer, "%d", language);
 
-            kuIoWrite(fd, buffer, sizeof(char));
-            kuIoClose(fd);
+            sceIoWrite(fd, buffer, sizeof(char));
+            sceIoClose(fd);
         }
     }
 }

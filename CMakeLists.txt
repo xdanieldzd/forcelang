@@ -27,10 +27,11 @@ add_executable(forcelang
 
 target_link_libraries(forcelang
   taihen_stub
-  kuio_stub
   SceLibc_stub
   SceAppMgr_stub
   SceAppUtil_stub
+  SceIofilemgr_stub
+  SceLibKernel_stub
 )
 
 set_target_properties(forcelang
