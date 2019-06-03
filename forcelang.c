@@ -15,7 +15,7 @@
 
 #include <taihen.h>
 
-#define DATA_DIRECTORY "ur0:/data/forcelang"
+#define DATA_DIRECTORY "ux0:/data/forcelang"
 
 static tai_hook_ref_t sysParamGet_hookRef;
 static SceUID taiPatchRef;
