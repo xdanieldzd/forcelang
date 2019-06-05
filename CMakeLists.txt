@@ -22,7 +22,8 @@ link_directories(
 )
 
 add_executable(forcelang
-  ${CMAKE_SOURCE_DIR}/forcelang.c
+  ${CMAKE_SOURCE_DIR}/main.c
+  ${CMAKE_SOURCE_DIR}/draw.c
 )
 
 target_link_libraries(forcelang
@@ -33,6 +34,8 @@ target_link_libraries(forcelang
   SceIofilemgr_stub
   SceLibKernel_stub
   SceKernelThreadMgr_stub
+  SceSysmodule_stub
+  SceDisplay_stub
 )
 
 set_target_properties(forcelang

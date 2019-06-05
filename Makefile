@@ -136,32 +136,59 @@ forcelang.suprx/fast:
 	$(MAKE) -f CMakeFiles/forcelang.suprx.dir/build.make CMakeFiles/forcelang.suprx.dir/build
 .PHONY : forcelang.suprx/fast
 
-forcelang.obj: forcelang.c.obj
+draw.obj: draw.c.obj
 
-.PHONY : forcelang.obj
+.PHONY : draw.obj
 
 # target to build an object file
-forcelang.c.obj:
-	$(MAKE) -f CMakeFiles/forcelang.dir/build.make CMakeFiles/forcelang.dir/forcelang.c.obj
-.PHONY : forcelang.c.obj
+draw.c.obj:
+	$(MAKE) -f CMakeFiles/forcelang.dir/build.make CMakeFiles/forcelang.dir/draw.c.obj
+.PHONY : draw.c.obj
 
-forcelang.i: forcelang.c.i
+draw.i: draw.c.i
 
-.PHONY : forcelang.i
+.PHONY : draw.i
 
 # target to preprocess a source file
-forcelang.c.i:
-	$(MAKE) -f CMakeFiles/forcelang.dir/build.make CMakeFiles/forcelang.dir/forcelang.c.i
-.PHONY : forcelang.c.i
+draw.c.i:
+	$(MAKE) -f CMakeFiles/forcelang.dir/build.make CMakeFiles/forcelang.dir/draw.c.i
+.PHONY : draw.c.i
 
-forcelang.s: forcelang.c.s
+draw.s: draw.c.s
 
-.PHONY : forcelang.s
+.PHONY : draw.s
 
 # target to generate assembly for a file
-forcelang.c.s:
-	$(MAKE) -f CMakeFiles/forcelang.dir/build.make CMakeFiles/forcelang.dir/forcelang.c.s
-.PHONY : forcelang.c.s
+draw.c.s:
+	$(MAKE) -f CMakeFiles/forcelang.dir/build.make CMakeFiles/forcelang.dir/draw.c.s
+.PHONY : draw.c.s
+
+main.obj: main.c.obj
+
+.PHONY : main.obj
+
+# target to build an object file
+main.c.obj:
+	$(MAKE) -f CMakeFiles/forcelang.dir/build.make CMakeFiles/forcelang.dir/main.c.obj
+.PHONY : main.c.obj
+
+main.i: main.c.i
+
+.PHONY : main.i
+
+# target to preprocess a source file
+main.c.i:
+	$(MAKE) -f CMakeFiles/forcelang.dir/build.make CMakeFiles/forcelang.dir/main.c.i
+.PHONY : main.c.i
+
+main.s: main.c.s
+
+.PHONY : main.s
+
+# target to generate assembly for a file
+main.c.s:
+	$(MAKE) -f CMakeFiles/forcelang.dir/build.make CMakeFiles/forcelang.dir/main.c.s
+.PHONY : main.c.s
 
 # Help Target
 help:
@@ -173,9 +200,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... forcelang"
 	@echo "... forcelang.suprx"
-	@echo "... forcelang.obj"
-	@echo "... forcelang.i"
-	@echo "... forcelang.s"
+	@echo "... draw.obj"
+	@echo "... draw.i"
+	@echo "... draw.s"
+	@echo "... main.obj"
+	@echo "... main.i"
+	@echo "... main.s"
 .PHONY : help
 
 
